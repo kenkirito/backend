@@ -6,6 +6,8 @@ class User < ApplicationRecord
          :jwt_authenticatable,
          :registerable,
          jwt_revocation_strategy: JwtBlacklist
+  devise :omniauthable,
+          omniauth_providers: [:google_oauth2]
   serialize :role, Array
   after_create :assign_mentor
 
@@ -42,4 +44,11 @@ class User < ApplicationRecord
     # change it to actual scorecard
     User.pluck(:id).sort
   end
+  def from_omniauth(auth_hash)
+    user = find_or_create_by(uid: auth_hash['uid'], provider: auth_hash['provider'])
+    user.name = auth_hash['info']['name']
+    user.save!
+    user
+  end
+
 end

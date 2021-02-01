@@ -29,4 +29,11 @@ Rails.application.routes.draw do
       jsonapi_resources :groupcalls, only: %i[index create]
     end
   end
+
+
+  namespace :api do
+    namespace :v2 do
+    end
+  end
+
 end
