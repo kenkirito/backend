@@ -4,7 +4,8 @@ module Api
   module V2
     class UsersController < ApplicationController
       include JSONAPI::ActsAsResourceController
-      
+        before_action :authenticate_user!
+        
         def context
         { user: current_user }
         end
